@@ -37,8 +37,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Очистка пробелов при вводе
+    // Фильтрация ввода - только цифры
     input.addEventListener('input', function(e) {
-        // Можно добавить валидацию, если нужно
+        // Удаляем все символы кроме цифр
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    
+    // Предотвращаем вставку нецифровых символов
+    input.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const paste = (e.clipboardData || window.clipboardData).getData('text');
+        const numbersOnly = paste.replace(/[^0-9]/g, '');
+        this.value = numbersOnly;
     });
 });
