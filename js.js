@@ -30,13 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 300);
     });
     
-    // Обработка Enter в поле ввода
-    input.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            form.dispatchEvent(new Event('submit'));
-        }
-    });
-    
     // Фильтрация ввода - только цифры
     input.addEventListener('input', function(e) {
         // Удаляем все символы кроме цифр
@@ -49,5 +42,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const paste = (e.clipboardData || window.clipboardData).getData('text');
         const numbersOnly = paste.replace(/[^0-9]/g, '');
         this.value = numbersOnly;
+    });
+    
+    // Обработка клавиатуры - только цифры и служебные клавиши
+    input.addEventListener('keypress', function(e) {
+        // Разрешаем Enter для отправки формы
+        if (e.key === 'Enter') {
+            form.dispatchEvent(new Event('submit'));
+            return;
+        }
+        
+        // Разрешаем только цифры (0-9)
+        const isNumber = (e.key >= '0' && e.key <= '9');
+        if (!isNumber) {
+            e.preventDefault();
+        }
     });
 });
