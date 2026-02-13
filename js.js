@@ -3,8 +3,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const input = document.getElementById('contractNumber');
     const submitBtn = form.querySelector('.btn-submit');
     
-    // Фокус на поле ввода при загрузке страницы
-    input.focus();
+    // Функция для сброса формы
+    function resetForm() {
+        input.value = '';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Перейти к оплате';
+        input.focus();
+    }
+    
+    // Сбрасываем форму при загрузке страницы
+    resetForm();
+    
+    // Обработка возврата назад (pageshow срабатывает при возврате через кнопку "Назад")
+    window.addEventListener('pageshow', function(event) {
+        // Если страница загружена из кэша (возврат назад)
+        if (event.persisted) {
+            resetForm();
+        }
+    });
     
     // Обработка отправки формы
     form.addEventListener('submit', function(e) {
